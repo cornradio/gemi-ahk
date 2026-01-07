@@ -40,7 +40,7 @@ GuiMain_Create() {
     ; Loop Settings
     MainGui.Add("Text", "x10 y335", "Loop Quantity (0 = Infinite):")
     LoopCountInput := MainGui.Add("Edit", "x180 y332 w80 h25", "0")
-    MainGui.Add("UpDown", "vMyUpDown Range0-999999", 0)
+    MainGui.Add("UpDown", "vMyUpDown Range0-999999", 1)
 
     ; Coordinate & Status Display
     MainGui.SetFont("s11 Bold", "Segoe UI")

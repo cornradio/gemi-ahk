@@ -1,14 +1,6 @@
-#Requires AutoHotkey v2.0
-#NoTrayIcon
-DetectHiddenWindows(true)
-
-MainHWND := 6885680
-
-Loop {
-    ; --- USER CODE START ---
 CoordMode "Mouse", "Screen"
 
-; 1. 获取最新视�?(直接使用环境变量拼接路径)
+; 1. 获取最新视频 (直接使用环境变量拼接路径)
 LatestFile := ""
 Loop Files, EnvGet("USERPROFILE") "\Videos\*.*"
     if (LatestFile = "" || FileGetTime(A_LoopFilePath) > FileGetTime(LatestFile))
@@ -21,9 +13,4 @@ if (LatestFile != "") {
     FileCopy LatestFile, "D:\素材", 1
     RunWait "ffmpegcovertD.bat", "C:\lightspeed\5\code\ffmpeg"
     Run "D:\素材\压缩"
-}
-    ; --- USER CODE END ---
-
-    if WinExist('ahk_id ' MainHWND)
-        try SendMessage(0x401, DllCall('GetCurrentProcessId'), A_Index, , 'ahk_id ' MainHWND, , , , 500)
 }
