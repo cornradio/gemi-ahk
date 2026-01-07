@@ -22,3 +22,11 @@
 
 ---
 *提示：参考 `Scripts\Example_Clicker.md` 了解如何给 AI 下达更清晰的指令。*
+
+
+### 示例
+我让 AI 写了一个拖着窗口绕 4k 屏幕转一圈的脚本：
+
+https://github.com/user-attachments/assets/16b7ba7e-c428-49d5-938f-ab513e38c7d5
+
+
