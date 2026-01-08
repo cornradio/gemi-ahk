@@ -16,7 +16,7 @@ NetMenu := Menu()
 NetMenu.Add("IP.skk.moe (IP CN/Oter/Ping Speed)", (*) => Run("https://ip.skk.moe"))
 NetMenu.Add("IPPure.com (IP Human/Bot)", (*) => Run("https://ippure.com"))
 NetMenu.Add("Ping0.cc (IP IDC/Home/Location)", (*) => Run("https://ping0.cc"))
-NetMenu.Add("DNS Leak Test (BrowserLeaks)", (*) => Run("https://browserleaks.com/dns"))
+NetMenu.Add("Leak Test (WebRTC /DNS Leaks)", (*) => Run("https://browserleaks.com/ip"))
 NetMenu.Add("DNSLog.org (DNS Logging)", (*) => Run("https://dnslog.org/"))
 NetMenu.Add("IP-searching (bad ip detect)", (*) => Run("http://8.153.164.13/tool/IP.html"))
 
