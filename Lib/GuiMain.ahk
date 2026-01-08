@@ -1,9 +1,10 @@
 ; GuiMain.ahk - Main Interface (v2)
 
-global MainGui, MainLV, CoordText, LoopCountInput, HotkeyChoice, BtnStart, BtnPause, BtnStop, ListHeader
+global MainGui, MainLV, CoordText, ArrowText, LoopCountInput, HotkeyChoice, BtnStart, BtnPause, BtnStop, ListHeader
 
 GuiMain_Create() {
-    global MainGui, MainLV, CoordText, ScriptDir, LoopCountInput, HotkeyChoice, BtnStart, BtnPause, BtnStop, ListHeader,
+    global MainGui, MainLV, CoordText, ArrowText, ScriptDir, LoopCountInput, HotkeyChoice, BtnStart, BtnPause, BtnStop,
+        ListHeader,
         HotkeyMode
 
     MainGui := Gui("+Resize", "gemi-ahk")
@@ -45,7 +46,10 @@ GuiMain_Create() {
     ; Coordinate & Status Display
     MainGui.SetFont("s11 Bold", "Segoe UI")
     MainGui.Add("GroupBox", "x10 y360 w260 h65", "Mouse Tracker")
-    CoordText := MainGui.Add("Text", "x20 y385 w240 cRed", "X: 0, Y: 0")
+    CoordText := MainGui.Add("Text", "x20 y385 w160 cRed", "X: 0, Y: 0")
+
+    MainGui.SetFont("s28 Bold", "Segoe UI")
+    ArrowText := MainGui.Add("Text", "x190 y375 w60 Center cBlue", "")
     MainGui.SetFont("Norm s10")
 
     ; Control Bar with Dynamic Labels
@@ -59,6 +63,7 @@ GuiMain_Create() {
     BtnStop.OnEvent("Click", (*) => GuiMain_Stop())
 
     MainGui.OnEvent("Close", (*) => ExitApp())
+    MainGui.OnEvent("ContextMenu", GuiMain_OnContextMenu)
     OnMessage(0x401, UpdateIterationCount)
 
     GuiMain_UpdateHotkeyLabels()
@@ -134,10 +139,30 @@ GuiMain_UpdateStatus() {
 }
 
 GuiMain_UpdateMouse() {
-    global CoordText
+    global CoordText, ArrowText
+    static prevX := 0, prevY := 0
+
     CoordMode("Mouse", "Screen")
     MouseGetPos(&x, &y)
     CoordText.Value := "X: " x ", Y: " y
+
+    dx := x - prevX
+    dy := y - prevY
+
+    if (Abs(dx) > 5 || Abs(dy) > 5) {
+        if (Abs(dx) > Abs(dy) * 1.5) {
+            ArrowText.Value := (dx > 0) ? "→" : "←"
+        } else if (Abs(dy) > Abs(dx) * 1.5) {
+            ArrowText.Value := (dy > 0) ? "↓" : "↑"
+        } else {
+            if (dx > 0)
+                ArrowText.Value := (dy > 0) ? "↘" : "↗"
+            else
+                ArrowText.Value := (dy > 0) ? "↙" : "↖"
+        }
+        prevX := x
+        prevY := y
+    }
 }
 
 GuiMain_Start() {
@@ -192,4 +217,37 @@ GuiMain_SetDir() {
 GuiMain_OpenDir() {
     global ScriptDir
     Run('explorer "' ScriptDir '"')
+}
+
+GuiMain_OnContextMenu(GuiObj, GuiCtrlObj, Item, IsRightClick, X, Y) {
+    if !GuiCtrlObj
+        return
+
+    if (GuiCtrlObj.Text = "Set Directory") {
+        GuiMain_SetDirManual()
+    } else if (GuiCtrlObj.Text = "Open Folder") {
+        GuiMain_OpenInVSCode()
+    }
+}
+
+GuiMain_SetDirManual() {
+    global ScriptDir
+    ib := InputBox("Enter script directory path:", "Manual Set Directory", "w400 h130", ScriptDir)
+    if (ib.Result = "OK" && ib.Value != "") {
+        if DirExist(ib.Value) {
+            Config_SaveScriptDir(ib.Value)
+            GuiMain_Refresh()
+        } else {
+            MsgBox("Directory does not exist: " ib.Value)
+        }
+    }
+}
+
+GuiMain_OpenInVSCode() {
+    global ScriptDir
+    try {
+        Run('cmd /c code "' ScriptDir '"', , "Hide")
+    } catch {
+        MsgBox("Failed to run 'code'. Make sure VS Code is in your PATH.")
+    }
 }

@@ -30,3 +30,12 @@
 https://github.com/user-attachments/assets/16b7ba7e-c428-49d5-938f-ab513e38c7d5
 
 
+## 更新日志
+
+### v1.0.1 （2026-01-08）
+- 修复：增加鼠标移动指示
+- 增加右键 set directory 可以直接跳出文本框让你输入路径
+- 增加右键 open folder 可以用 VSCode 打开文件夹
+
+### v1.0.0 （2026-01-07）
+- 初始版本

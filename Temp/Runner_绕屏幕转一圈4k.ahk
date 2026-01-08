@@ -2,7 +2,7 @@
 #NoTrayIcon
 DetectHiddenWindows(true)
 
-MainHWND := 4000356
+MainHWND := 396298
 
 Loop {
     ; --- USER CODE START ---

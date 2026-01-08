@@ -2,9 +2,9 @@
 #NoTrayIcon
 DetectHiddenWindows(true)
 
-MainHWND := 265122
+MainHWND := 396298
 
-Loop 1 {
+Loop {
     ; --- USER CODE START ---
 ; ==============================================================================
 ; 程序名称：DJI 视频素材自动化处理工�?

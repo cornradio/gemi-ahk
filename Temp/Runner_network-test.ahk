@@ -4,7 +4,7 @@ DetectHiddenWindows(true)
 
 MainHWND := 396298
 
-Loop 1 {
+Loop {
     ; --- USER CODE START ---
 #Requires AutoHotkey v2.0
 #SingleInstance Off
